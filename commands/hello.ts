@@ -18,6 +18,6 @@ export default class HelloCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     return ctx.options.food
       ? `You like ${ctx.options.food}? Nice!`
-      : `Hello, ${ctx.member?.displayName ?? ctx.user.username}!`;
+      : `HELLO, ${ctx.member?.displayName ?? ctx.user.username}!`;
   }
 }
