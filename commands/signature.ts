@@ -1,3 +1,4 @@
+import { MessageEmbed } from 'discord.js'
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
 
 export default class HelloCommand extends SlashCommand {
@@ -24,8 +25,15 @@ export default class HelloCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     const currentDate = Math.floor(Date.now() / 1000);
+
+    const embed = new MessageEmbed()
+      .setTitle('Hi')
+      .setColor('RANDOM')
+      .setTimestamp()
+      .setDescription('Hello');
+
     if(ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
-    else if(ctx.options['concave']) return currentDate;
+    else if(ctx.options['concave']) ctx.send({embeds: [embed.toJSON()]});
 
     /*
     return ctx.options.food

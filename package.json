@@ -11,6 +11,7 @@
     "lint:fix": "npx eslint --ext .ts . --fix"
   },
   "dependencies": {
+    "discord.js": "^12.5.3",
     "slash-create": "^5.6.1"
   },
   "devDependencies": {
