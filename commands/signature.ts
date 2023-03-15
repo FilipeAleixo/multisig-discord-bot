@@ -63,7 +63,7 @@ function makeEmbed(commandName: string) {
     .setColor(0x0099ff)
     .setTitle('Signature request')
     .addFields(
-      { name: `A signature has been requested for ${commandName}`, value: '' },
+      { name: `A signature has been requested for ${commandName}`, value: '-' },
       { name: '\u200B', value: '\u200B' },
       { name: 'Address 1', value: '0.1 ETH' },
       { name: 'Address 1', value: '0.2 ETH' }
