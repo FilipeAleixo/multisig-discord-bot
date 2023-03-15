@@ -9,12 +9,12 @@ export default class HelloCommand extends SlashCommand {
       options: [
         {
           type: CommandOptionType.SUB_COMMAND,
-          name: 'co-op',
+          name: 'co-op-treasury',
           description: 'Co-Op Treasury Addresses'
         },
         {
           type: CommandOptionType.SUB_COMMAND,
-          name: 'concave',
+          name: 'concave-treasury',
           description: 'Concave Treasury Addresses'
         }
       ]
@@ -30,7 +30,8 @@ export default class HelloCommand extends SlashCommand {
         { name: '\u200B', value: '\u200B' },
         { name: 'Address 1', value: '0.1 ETH' },
         { name: 'Address 1', value: '0.2 ETH' }
-      );
+      )
+      .toJSON();
   }
 
   async run(ctx: CommandContext) {
@@ -56,8 +57,11 @@ export default class HelloCommand extends SlashCommand {
       .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
     */
 
-    if (ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
-    else if (ctx.options['concave']) ctx.send({ embeds: [this.makeEmbed('concave').toJSON()] });
+    if (ctx.options['co-op-treasury']) ctx.send(`<t:${currentDate}:f>`);
+    else if (ctx.options['concave-treasury']) {
+      const embed = this.makeEmbed('concave-treasury');
+      ctx.send({ embeds: [embed] });
+    }
 
     /*
     return ctx.options.food
