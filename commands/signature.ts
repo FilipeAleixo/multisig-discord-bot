@@ -23,7 +23,8 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    return 'Works'
+    if(ctx.options['co-op']) return 'co-op';
+    else if(ctx.options['concave']) return 'concave';
     /*
     return ctx.options.food
       ? `You like ${ctx.options.food}? Nice!`
