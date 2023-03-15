@@ -5,6 +5,20 @@ export default class HelloCommand extends SlashCommand {
     super(creator, {
       name: 'signature',
       description: 'Get multisig addresses from treasuries',
+      options: [
+        {          
+          type: CommandOptionType.SUB_COMMAND,
+          name: "co-op",
+          description:
+            "Co-Op Treasury Addresses",
+        },
+        {          
+          type: CommandOptionType.SUB_COMMAND,
+          name: "concave",
+          description:
+            "Concave Treasury Addresses",
+        },
+      ]
     });
   }
 
