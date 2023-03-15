@@ -47,7 +47,9 @@ export default class HelloCommand extends SlashCommand {
     if (ctx.options['co-op-treasury']) ctx.send(`<t:${currentDate}:f>`);
     else if (ctx.options['concave-treasury']) {
       const embed = makeEmbed('concave-treasury');
-      ctx.send("Hello");
+      ctx.send({
+        embeds: [embed]
+      });
     }
 
     /*
