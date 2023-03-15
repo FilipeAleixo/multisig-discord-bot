@@ -3,21 +3,17 @@ import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 's
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
-      name: 'hello',
-      description: 'Says hello to you.',
-      options: [
-        {
-          type: CommandOptionType.STRING,
-          name: 'food',
-          description: 'What food do you like?'
-        }
-      ]
+      name: 'signature',
+      description: 'Get multisig addresses from treasuries',
     });
   }
 
   async run(ctx: CommandContext) {
+    return 'Works'
+    /*
     return ctx.options.food
       ? `You like ${ctx.options.food}? Nice!`
       : `HELLO, ${ctx.member?.displayName ?? ctx.user.username}!`;
+    */
   }
 }
