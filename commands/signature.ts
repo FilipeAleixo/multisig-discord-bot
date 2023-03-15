@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
 
 export default class HelloCommand extends SlashCommand {
@@ -7,18 +7,16 @@ export default class HelloCommand extends SlashCommand {
       name: 'signature',
       description: 'Get multisig addresses from treasuries',
       options: [
-        {          
+        {
           type: CommandOptionType.SUB_COMMAND,
-          name: "co-op",
-          description:
-            "Co-Op Treasury Addresses",
+          name: 'co-op',
+          description: 'Co-Op Treasury Addresses'
         },
-        {          
+        {
           type: CommandOptionType.SUB_COMMAND,
-          name: "concave",
-          description:
-            "Concave Treasury Addresses",
-        },
+          name: 'concave',
+          description: 'Concave Treasury Addresses'
+        }
       ]
     });
   }
@@ -26,14 +24,26 @@ export default class HelloCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     const currentDate = Math.floor(Date.now() / 1000);
 
-    const embed = new MessageEmbed()
-      .setTitle('Hi')
-      .setColor('RANDOM')
+    const embed = new EmbedBuilder()
+      .setColor(0x0099ff)
+      .setTitle('Some title')
+      .setURL('https://discord.js.org/')
+      .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
+      .setDescription('Some description here')
+      .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+      .addFields(
+        { name: 'Regular field title', value: 'Some value here' },
+        { name: '\u200B', value: '\u200B' },
+        { name: 'Inline field title', value: 'Some value here', inline: true },
+        { name: 'Inline field title', value: 'Some value here', inline: true }
+      )
+      .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
+      .setImage('https://i.imgur.com/AfFp7pu.png')
       .setTimestamp()
-      .setDescription('Hello');
+      .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
 
-    if(ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
-    else if(ctx.options['concave']) ctx.send({embeds: [embed.toJSON()]});
+    if (ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
+    else if (ctx.options['concave']) ctx.send({ embeds: [embed.toJSON()] });
 
     /*
     return ctx.options.food
