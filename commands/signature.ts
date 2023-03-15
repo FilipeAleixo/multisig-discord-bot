@@ -24,7 +24,7 @@ export default class HelloCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     const currentDate = Date.now().toString();
-    if(ctx.options['co-op']) return '<t:1654095600:f>';
+    if(ctx.options['co-op']) return `<t:${currentDate}:f>`;
     else if(ctx.options['concave']) return currentDate;
     /*
     return ctx.options.food
