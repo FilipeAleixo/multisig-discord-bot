@@ -21,19 +21,6 @@ export default class HelloCommand extends SlashCommand {
     });
   }
 
-  makeEmbed(commandName: string) {
-    return new EmbedBuilder()
-      .setColor(0x0099ff)
-      .setTitle('Signature request')
-      .addFields(
-        { name: `A signature has been requested for ${commandName}`, value: '' },
-        { name: '\u200B', value: '\u200B' },
-        { name: 'Address 1', value: '0.1 ETH' },
-        { name: 'Address 1', value: '0.2 ETH' }
-      )
-      .toJSON();
-  }
-
   async run(ctx: CommandContext) {
     const currentDate = Math.floor(Date.now() / 1000);
 
@@ -59,7 +46,7 @@ export default class HelloCommand extends SlashCommand {
 
     if (ctx.options['co-op-treasury']) ctx.send(`<t:${currentDate}:f>`);
     else if (ctx.options['concave-treasury']) {
-      const embed = this.makeEmbed('concave-treasury');
+      const embed = makeEmbed('concave-treasury');
       ctx.send({ embeds: [embed] });
     }
 
@@ -69,4 +56,17 @@ export default class HelloCommand extends SlashCommand {
       : `HELLO, ${ctx.member?.displayName ?? ctx.user.username}!`;
     */
   }
+}
+
+function makeEmbed(commandName: string) {
+  return new EmbedBuilder()
+    .setColor(0x0099ff)
+    .setTitle('Signature request')
+    .addFields(
+      { name: `A signature has been requested for ${commandName}`, value: '' },
+      { name: '\u200B', value: '\u200B' },
+      { name: 'Address 1', value: '0.1 ETH' },
+      { name: 'Address 1', value: '0.2 ETH' }
+    )
+    .toJSON();
 }
