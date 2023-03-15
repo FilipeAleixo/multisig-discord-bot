@@ -36,8 +36,6 @@ export default class HelloCommand extends SlashCommand {
   async run(ctx: CommandContext) {
     const currentDate = Math.floor(Date.now() / 1000);
 
-    const embed =
-
     /*
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
