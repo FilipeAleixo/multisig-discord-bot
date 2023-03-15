@@ -26,6 +26,17 @@ export default class HelloCommand extends SlashCommand {
 
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
+      .setTitle('Signature request')
+      .addFields(
+        { name: 'A signature has been requested for', value: '\u200B' },
+        { name: '\u200B', value: '\u200B' },
+        { name: 'Inline field title', value: 'Some value here' },
+        { name: 'Inline field title', value: 'Some value here', inline: true }
+      );
+
+    /*
+    const embed = new EmbedBuilder()
+      .setColor(0x0099ff)
       .setTitle('Some title')
       .setURL('https://discord.js.org/')
       .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
@@ -44,6 +55,8 @@ export default class HelloCommand extends SlashCommand {
 
     if (ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
     else if (ctx.options['concave']) ctx.send({ embeds: [embed.toJSON()] });
+
+    /*
 
     /*
     return ctx.options.food
