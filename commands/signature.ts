@@ -52,11 +52,12 @@ export default class HelloCommand extends SlashCommand {
       .setImage('https://i.imgur.com/AfFp7pu.png')
       .setTimestamp()
       .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    */
 
     if (ctx.options['co-op']) ctx.send(`<t:${currentDate}:f>`);
     else if (ctx.options['concave']) ctx.send({ embeds: [embed.toJSON()] });
 
-    /*
+
 
     /*
     return ctx.options.food
