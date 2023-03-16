@@ -8,7 +8,7 @@ const CONCAVE_TREASURY_ADDRESS = '0x226e7AF139a0F34c6771DeB252F9988876ac1Ced';
 
 // Connect to the network
 const provider = new ethers.providers.JsonRpcProvider(
-  'https://eth-mainnet.g.alchemy.com/v2/zKkc6wPRATuMBbFtdUwsE2J8ilGTa4SQ'
+  `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_MAINNET_KEY}`
 );
 
 export default class SignatureCommand extends SlashCommand {
