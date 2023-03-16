@@ -80,7 +80,7 @@ function makeEmbed(commandName: string, owners: any) {
     );
 
   for (const o of owners) {
-    embed.addFields({ name: o.address, value: `**Balance**: ${o.balance} ETH, **Nonce: ${o.nonce}` });
+    embed.addFields({ name: o.address, value: `**Balance**: ${o.balance} ETH, **Nonce**: ${o.nonce}` });
   }
 
   return embed.toJSON();
