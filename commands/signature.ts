@@ -76,7 +76,7 @@ function makeEmbed(commandName: string, ownersBalances: any) {
     .setColor(0x0099ff)
     .setTitle('Signature request')
     .addFields(
-      { name: `A signature has been requested for ${commandName} at <t:${currentDate}:f>`, value: '-' },
+      { name: `A signature has been requested for ${commandName}`, value: `at <t:${currentDate}:f>` },
       { name: '\u200B', value: '\u200B' }
     );
 
