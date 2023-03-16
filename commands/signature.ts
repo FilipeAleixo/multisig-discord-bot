@@ -53,13 +53,13 @@ export default class SignatureCommand extends SlashCommand {
     */
 
     if (ctx.options['co-op-treasury']) {
-      const ownersBalances = getOwners(COOP_TREASURY_ADDRESS);
+      const ownersBalances = await getOwners(COOP_TREASURY_ADDRESS);
       const embed = makeEmbed('co-op-treasury', ownersBalances);
       ctx.send({
         embeds: [embed]
       });
     } else if (ctx.options['concave-treasury']) {
-      const ownersBalances = getOwners(CONCAVE_TREASURY_ADDRESS);
+      const ownersBalances = await getOwners(CONCAVE_TREASURY_ADDRESS);
       const embed = makeEmbed('concave-treasury', ownersBalances);
       ctx.send({
         embeds: [embed]
@@ -78,8 +78,6 @@ function makeEmbed(commandName: string, ownersBalances: any) {
       { name: `A signature has been requested for ${commandName} at <t:${currentDate}:f>`, value: '-' },
       { name: '\u200B', value: '\u200B' }
     );
-
-  console.log({ownersBalances});
 
   for (const ob of ownersBalances) {
     embed.addFields({ name: ob.adddress, value: ob.balance });
