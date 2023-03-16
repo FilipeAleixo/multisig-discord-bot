@@ -92,10 +92,19 @@ async function getOwners(treasuryAddress: string) {
   var addresses = await contract.getOwners();
   const ownersBalances = [];
 
+  const promises = [];
+
   for (const a of addresses) {
-    const balance = await provider.getBalance(a);
-    const balanceEther = ethers.utils.formatEther(balance);
-    ownersBalances.push({ address: a, balanceEther });
+    const balance = provider.getBalance(a);
+    promises.push(balance);
   }
+  // parallel for quicker command response
+  const balances = await Promise.all(promises);
+
+  for (const [i, b] of balances.entries()) {
+    const balanceEther = ethers.utils.formatEther(b);
+    ownersBalances.push({ address: addresses[i], balanceEther });
+  }
+
   return ownersBalances;
 }
