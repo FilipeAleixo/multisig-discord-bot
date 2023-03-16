@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "discord.js": "^14.8.0",
+    "ethers": "^5.7.2",
     "slash-create": "^5.6.1"
   },
   "devDependencies": {

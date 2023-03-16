@@ -1,5 +1,15 @@
 import { EmbedBuilder } from 'discord.js';
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
+import { ethers } from 'ethers';
+import { gnosisSafeAbi } from '../abi/gnosisSafe';
+
+const COOP_TREASURY_ADDRESS = '0x93249D69636124ab311798F047dC1a8a94dd0a9E';
+const CONCAVE_TREASURY_ADDRESS = '0x226e7AF139a0F34c6771DeB252F9988876ac1Ced';
+
+// Connect to the network
+const provider = new ethers.providers.JsonRpcProvider(
+  'https://eth-mainnet.g.alchemy.com/v2/zKkc6wPRATuMBbFtdUwsE2J8ilGTa4SQ'
+);
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -22,8 +32,6 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const currentDate = Math.floor(Date.now() / 1000);
-
     /*
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
@@ -44,31 +52,49 @@ export default class HelloCommand extends SlashCommand {
       .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
     */
 
-    if (ctx.options['co-op-treasury']) ctx.send(`<t:${currentDate}:f>`);
-    else if (ctx.options['concave-treasury']) {
-      const embed = makeEmbed('concave-treasury');
+    if (ctx.options['co-op-treasury']) {
+      const ownersBalances = getOwners(COOP_TREASURY_ADDRESS);
+      const embed = makeEmbed('co-op-treasury', ownersBalances);
+      ctx.send({
+        embeds: [embed]
+      });
+    } else if (ctx.options['concave-treasury']) {
+      const ownersBalances = getOwners(CONCAVE_TREASURY_ADDRESS);
+      const embed = makeEmbed('concave-treasury', ownersBalances);
       ctx.send({
         embeds: [embed]
       });
     }
-
-    /*
-    return ctx.options.food
-      ? `You like ${ctx.options.food}? Nice!`
-      : `HELLO, ${ctx.member?.displayName ?? ctx.user.username}!`;
-    */
   }
 }
 
-function makeEmbed(commandName: string) {
-  return new EmbedBuilder()
+function makeEmbed(commandName: string, ownersBalances: any) {
+  const currentDate = Math.floor(Date.now() / 1000);
+
+  const embed = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle('Signature request')
     .addFields(
-      { name: `A signature has been requested for ${commandName}`, value: '-' },
-      { name: '\u200B', value: '\u200B' },
-      { name: 'Address 1', value: '0.1 ETH' },
-      { name: 'Address 1', value: '0.2 ETH' }
-    )
-    .toJSON();
+      { name: `A signature has been requested for ${commandName} at <t:${currentDate}:f>`, value: '-' },
+      { name: '\u200B', value: '\u200B' }
+    );
+
+  for (const ob of ownersBalances) {
+    embed.addFields({ name: ob.adddress, value: ob.balance });
+  }
+
+  return embed.toJSON();
+}
+
+async function getOwners(treasuryAddress: string) {
+  const contract = new ethers.Contract(treasuryAddress, gnosisSafeAbi, provider);
+  var addresses = await contract.getOwners();
+  const ownersBalances = [];
+
+  for (const a of addresses) {
+    const balance = await provider.getBalance(a);
+    const balanceEther = ethers.utils.formatEther(balance);
+    ownersBalances.push({ address: a, balanceEther });
+  }
+  return ownersBalances;
 }
