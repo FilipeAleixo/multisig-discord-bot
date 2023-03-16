@@ -80,7 +80,7 @@ function makeEmbed(commandName: string, owners: any) {
     );
 
   for (const o of owners) {
-    embed.addFields({ name: o.address, value: o.balance + ' ETH' + ` ${o.nonce}` });
+    embed.addFields({ name: o.address, value: `**Balance**: ${o.balance} ETH, **Nonce**: ${o.nonce}` });
   }
 
   return embed.toJSON();
@@ -108,7 +108,7 @@ async function getOwners(treasuryAddress: string) {
   ]);
 
   for (const [i, a] of addresses.entries()) {
-    const balanceEther = ethers.utils.formatEther(balances[i]);
+    const balanceEther = ethers.utils.formatEther(balances[i].mod(1e14)); // 4 decimal places
     owners.push({ address: a, balance: balanceEther, nonce: nonces[i] });
   }
 
