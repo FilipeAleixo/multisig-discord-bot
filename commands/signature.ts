@@ -53,15 +53,14 @@ export default class SignatureCommand extends SlashCommand {
     */
 
     if (ctx.options['co-op-treasury']) {
-      const ownersBalances = await getOwners(COOP_TREASURY_ADDRESS);
-      console.log({ownersBalances});
-      const embed = makeEmbed('co-op-treasury', ownersBalances);
+      const owners = await getOwners(COOP_TREASURY_ADDRESS);
+      const embed = makeEmbed('co-op-treasury', owners);
       ctx.send({
         embeds: [embed]
       });
     } else if (ctx.options['concave-treasury']) {
-      const ownersBalances = await getOwners(CONCAVE_TREASURY_ADDRESS);
-      const embed = makeEmbed('concave-treasury', ownersBalances);
+      const owners = await getOwners(CONCAVE_TREASURY_ADDRESS);
+      const embed = makeEmbed('concave-treasury', owners);
       ctx.send({
         embeds: [embed]
       });
@@ -69,7 +68,7 @@ export default class SignatureCommand extends SlashCommand {
   }
 }
 
-function makeEmbed(commandName: string, ownersBalances: any) {
+function makeEmbed(commandName: string, owners: any) {
   const currentDate = Math.floor(Date.now() / 1000);
 
   const embed = new EmbedBuilder()
@@ -80,8 +79,8 @@ function makeEmbed(commandName: string, ownersBalances: any) {
       { name: '\u200B', value: '\u200B' }
     );
 
-  for (const ob of ownersBalances) {
-    embed.addFields({ name: ob.address, value: ob.balanceEther + ' ETH' });
+  for (const o of owners) {
+    embed.addFields({ name: o.address, value: o.balance + ' ETH' + ` ${o.nonce}` });
   }
 
   return embed.toJSON();
@@ -90,21 +89,28 @@ function makeEmbed(commandName: string, ownersBalances: any) {
 async function getOwners(treasuryAddress: string) {
   const contract = new ethers.Contract(treasuryAddress, gnosisSafeAbi, provider);
   var addresses = await contract.getOwners();
-  const ownersBalances = [];
 
-  const promises = [];
+  const owners = [];
+  const balancePromises = [];
+  const noncePromises = [];
 
   for (const a of addresses) {
     const balance = provider.getBalance(a);
-    promises.push(balance);
+    balancePromises.push(balance);
+    const nonce = provider.getTransactionCount(a);
+    noncePromises.push(nonce);
   }
+
   // parallel for quicker command response
-  const balances = await Promise.all(promises);
+  const [balances, nonces] = await Promise.all([
+    Promise.all(balancePromises),
+    Promise.all(noncePromises)
+  ]);
 
-  for (const [i, b] of balances.entries()) {
-    const balanceEther = ethers.utils.formatEther(b);
-    ownersBalances.push({ address: addresses[i], balanceEther });
+  for (const [i, a] of addresses.entries()) {
+    const balanceEther = ethers.utils.formatEther(balances[i]);
+    owners.push({ address: a, balance: balanceEther, nonce: nonces[i] });
   }
 
-  return ownersBalances;
+  return owners;
 }
