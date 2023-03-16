@@ -81,7 +81,7 @@ function makeEmbed(commandName: string, ownersBalances: any) {
     );
 
   for (const ob of ownersBalances) {
-    embed.addFields({ name: ob.adddress, value: ob.balance });
+    embed.addFields({ name: ob.address, value: ob.balanceEther });
   }
 
   return embed.toJSON();
