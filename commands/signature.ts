@@ -11,7 +11,7 @@ const provider = new ethers.providers.JsonRpcProvider(
   'https://eth-mainnet.g.alchemy.com/v2/zKkc6wPRATuMBbFtdUwsE2J8ilGTa4SQ'
 );
 
-export default class HelloCommand extends SlashCommand {
+export default class SignatureCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
       name: 'signature',
@@ -78,6 +78,8 @@ function makeEmbed(commandName: string, ownersBalances: any) {
       { name: `A signature has been requested for ${commandName} at <t:${currentDate}:f>`, value: '-' },
       { name: '\u200B', value: '\u200B' }
     );
+
+  console.log({ownersBalances});
 
   for (const ob of ownersBalances) {
     embed.addFields({ name: ob.adddress, value: ob.balance });
