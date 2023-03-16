@@ -54,6 +54,7 @@ export default class SignatureCommand extends SlashCommand {
 
     if (ctx.options['co-op-treasury']) {
       const ownersBalances = await getOwners(COOP_TREASURY_ADDRESS);
+      console.log({ownersBalances});
       const embed = makeEmbed('co-op-treasury', ownersBalances);
       ctx.send({
         embeds: [embed]
