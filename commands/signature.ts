@@ -108,7 +108,7 @@ async function getOwners(treasuryAddress: string) {
   ]);
 
   for (const [i, a] of addresses.entries()) {
-    const balanceEther = ethers.utils.formatEther(balances[i].mod(1e14)); // 4 decimal places
+    const balanceEther = ethers.utils.formatEther((+balances[i]).toFixed(4));
     owners.push({ address: a, balance: balanceEther, nonce: nonces[i] });
   }
 
